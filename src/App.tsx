@@ -20,36 +20,42 @@ const App: React.FC = () => {
   };
 
   const onDragEnd = (result: DropResult) => {
-    const { source, destination } = result;
+    const { destination, source } = result;
 
-    if (destination == null) return;
+    console.log(result);
+
+    if (!destination) {
+      return;
+    }
+
     if (
       destination.droppableId === source.droppableId &&
       destination.index === source.index
-    )
+    ) {
       return;
+    }
 
-    // let add;
-    // let active = tasks;
-    // let complete = completedTasks;
-    // // Source Logic
-    // if (source.droppableId === "ToDoTasks") {
-    //   add = active[source.index];
-    //   active.splice(source.index, 1);
-    // } else {
-    //   add = complete[source.index];
-    //   complete.splice(source.index, 1);
-    // }
+    let add;
+    let active = tasks;
+    let complete = completedTasks;
+    // Source Logic
+    if (source.droppableId === "TodosList") {
+      add = active[source.index];
+      active.splice(source.index, 1);
+    } else {
+      add = complete[source.index];
+      complete.splice(source.index, 1);
+    }
 
-    // // Destination Logic
-    // if (destination.droppableId === "ToDoTasks") {
-    //   active.splice(destination.index, 0, add);
-    // } else {
-    //   complete.splice(destination.index, 0, add);
-    // }
+    // Destination Logic
+    if (destination.droppableId === "TodosList") {
+      active.splice(destination.index, 0, add);
+    } else {
+      complete.splice(destination.index, 0, add);
+    }
 
-    // setCompletedTasks(complete);
-    // setTasks(active);
+    setCompletedTasks(complete);
+    setTasks(active);
   };
 
   return (
